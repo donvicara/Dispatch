@@ -15,7 +15,10 @@ class NotificationService {
     );
     const iosSettings = DarwinInitializationSettings();
     await _plugin.initialize(
-      const InitializationSettings(android: androidSettings, iOS: iosSettings),
+      settings: const InitializationSettings(
+        android: androidSettings,
+        iOS: iosSettings,
+      ),
       onDidReceiveNotificationResponse: (response) {
         final payload = response.payload;
         if (payload != null && payload.isNotEmpty) {
@@ -38,10 +41,10 @@ class NotificationService {
 
   Future<void> showTaskNotification(Task task) async {
     await _plugin.show(
-      task.id.hashCode,
-      'New Task assigned',
-      task.address,
-      const NotificationDetails(
+      id: task.id.hashCode,
+      title: 'New Task assigned',
+      body: task.address,
+      notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           'dispatch_tasks',
           'Dispatch tasks',
@@ -56,10 +59,10 @@ class NotificationService {
 
   Future<void> showSimpleNotification(String title, String body) async {
     await _plugin.show(
-      title.hashCode ^ body.hashCode,
-      title,
-      body,
-      const NotificationDetails(
+      id: title.hashCode ^ body.hashCode,
+      title: title,
+      body: body,
+      notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           'dispatch_tasks',
           'Dispatch tasks',
