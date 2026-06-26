@@ -36,7 +36,7 @@ jobs:
         run: yes | sdkmanager --licenses
 
       - name: Install Android SDK packages
-        run: sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.34"
+        run: sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.0"
 
       - name: Precache Flutter artifacts
         run: flutter precache --android
