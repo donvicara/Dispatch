@@ -18,19 +18,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
 
       - name: Set up Android SDK
-        uses: r0adkll/setup-android@v2
-        with:
-          api-level: 33
-          build-tools: 33.0.0
-          platform-tools: true
-          ndk: false
-          cmake: false
+        uses: android-actions/setup-android@v3
+
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses
+
+      - name: Install Android SDK packages
+        run: sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.34"
 
       - name: Precache Flutter artifacts
         run: flutter precache --android
@@ -46,3 +52,4 @@ jobs:
         with:
           name: debug-apk
           path: build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: error
